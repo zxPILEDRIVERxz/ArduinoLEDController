@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     Background Thread to handle Bluetooth data communication
     after connected
      */
-    private class ThreadConnected extends Thread {
+    public class ThreadConnected extends Thread {
         private final BluetoothSocket connectedBluetoothSocket;
         private final InputStream connectedInputStream;
         private final OutputStream connectedOutputStream;
