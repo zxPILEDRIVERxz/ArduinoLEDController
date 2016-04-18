@@ -24,14 +24,58 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/colorText"
-            android:layout_width="200px"
-            android:layout_height="50px" />
+            android:layout_width="291dp"
+            android:layout_height="50px"
+            android:text="This is the color." />
 
         <com.rtugeek.android.colorseekbar.ColorSeekBar
             android:id="@+id/colorSlider"
             android:layout_width="match_parent"
             app:colors="@array/material_colors"
             android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="getColor"
+                android:id="@+id/txt_getcolor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="colorbarvalue"
+                android:id="@+id/txt_colorbarvalue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="newstring"
+                android:id="@+id/txt_newstring" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txt_red"
+                android:id="@+id/txt_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txt_green"
+                android:id="@+id/txt_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txt_blue"
+                android:id="@+id/txt_blue" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

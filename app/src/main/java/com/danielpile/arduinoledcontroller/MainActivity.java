@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout inputPane;
     EditText inputField;
     Button btnSend;
+    Button btn_changecolor;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         inputPane = (LinearLayout)findViewById(R.id.inputpane);
         inputField = (EditText)findViewById(R.id.input);
         btnSend = (Button)findViewById(R.id.send);
+        btn_changecolor = (Button) findViewById(R.id.btn_changecolor);
         btnSend.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -77,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
                     byte[] bytesToSend = inputField.getText().toString().getBytes();
                     myThreadConnected.write(bytesToSend);
                 }
+            }});
+
+        btn_changecolor.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(MainActivity.this, Main2Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }});
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)){

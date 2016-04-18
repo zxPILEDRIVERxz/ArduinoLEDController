@@ -21,8 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -35,28 +33,28 @@
         tools:context=".MainActivity">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:autoLink="web"
-            android:text="http://android-er.blogspot.com/"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/info"
             android:textStyle="bold|italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/status"
             android:textSize="28sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Color"
+            android:id="@+id/btn_changecolor"
+            android:nestedScrollingEnabled="true" />
+
         <ListView
             android:id="@+id/pairedlist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="431dp"/>
 
         <LinearLayout
             android:id="@+id/inputpane"
