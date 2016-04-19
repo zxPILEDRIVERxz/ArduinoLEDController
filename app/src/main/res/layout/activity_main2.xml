@@ -42,24 +42,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="getColor"
-                android:id="@+id/txt_getcolor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="colorbarvalue"
-                android:id="@+id/txt_colorbarvalue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="newstring"
-                android:id="@+id/txt_newstring" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="txt_red"
                 android:id="@+id/txt_red" />
 
