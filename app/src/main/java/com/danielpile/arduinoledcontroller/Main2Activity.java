@@ -29,6 +29,7 @@ public class Main2Activity extends AppCompatActivity {
     Button btn_color_red;
     Button btn_color_green;
     Button btn_color_blue;
+    TextView txt_debug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class Main2Activity extends AppCompatActivity {
         btn_color_red = (Button)findViewById(R.id.btn_color_red);
         btn_color_green = (Button)findViewById(R.id.btn_color_green);
         btn_color_blue = (Button)findViewById(R.id.btn_color_blue);
+        txt_debug = (TextView)findViewById(R.id.txt_debug);
 
         colorSeekBar.setMaxValue(100);
         colorSeekBar.setColors(R.array.material_colors); // material_colors is defalut included in res/color,just use it.
@@ -58,6 +60,7 @@ public class Main2Activity extends AppCompatActivity {
         colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
             @Override
             public void onColorChangeListener(int colorBarValue, int alphaBarValue, int color) {
+                String command = "";
                 textView.setTextColor(color);
                 String r = String.valueOf(Color.red(color));
                 String g = String.valueOf(Color.green(color));
@@ -65,15 +68,25 @@ public class Main2Activity extends AppCompatActivity {
                 txt_red.setText(r);
                 txt_green.setText(g);
                 txt_blue.setText(b);
-                String command = new StringBuilder("kSetLEDs,s,").append(r).append(",").append(g).append(",").append(b).toString();
-                sendCommmand(command);
-                /*if(mainActivity.myThreadConnected!=null){
-                    Toast.makeText(getApplicationContext(),
-                            colorSeekBar.getColor(),
-                            Toast.LENGTH_LONG).show();
-                    byte[] bytesToSend = colorSeekBar.getColors().toString().getBytes();
-                    mainActivity.myThreadConnected.write(bytesToSend);
-                }*/
+                try
+                {
+                    command = new StringBuilder("kSetLEDs,s,").append(r).append(",").append(g).append(",").append(b).toString();
+                }
+                catch (Exception e)
+                {
+                    txt_debug.setText("Exception Occurred building string: " + e.getMessage());
+                    e.printStackTrace();
+                }
+
+                try
+                {
+                    sendCommmand(command);
+                }
+                catch (Exception e)
+                {
+                    txt_debug.setText("Exception Occurred sending command: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         });
 
