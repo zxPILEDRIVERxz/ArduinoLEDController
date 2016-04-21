@@ -20,7 +20,6 @@ public class Main2Activity extends AppCompatActivity {
 
     LinearLayout colorPane;
     ColorSeekBar colorSeekBar;
-    MainActivity mainActivity;
     TextView textView;
     TextView txt_red;
     TextView txt_green;
@@ -30,6 +29,8 @@ public class Main2Activity extends AppCompatActivity {
     Button btn_color_green;
     Button btn_color_blue;
     TextView txt_debug;
+
+    MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class Main2Activity extends AppCompatActivity {
         btn_color_green = (Button)findViewById(R.id.btn_color_green);
         btn_color_blue = (Button)findViewById(R.id.btn_color_blue);
         txt_debug = (TextView)findViewById(R.id.txt_debug);
+
+        mainActivity = new MainActivity();
 
         colorSeekBar.setMaxValue(100);
         colorSeekBar.setColors(R.array.material_colors); // material_colors is defalut included in res/color,just use it.
@@ -124,16 +127,24 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     private void sendCommmand(String command) {
-        if (mainActivity.myThreadConnected != null)
-        {
-            try {
-                command = new StringBuilder("cmdMessenger.sendCmd(").append(command).append(");").toString();
-                byte[] bytesToSend = command.getBytes();
-                mainActivity.myThreadConnected.write(bytesToSend);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        try {
+            if (mainActivity.myThreadConnectBTdevice == null) {
+                txt_debug.setText("No device connected!");
             }
+            else
+                {
+                try {
+                    command = new StringBuilder("cmdMessenger.sendCmd(").append(command).append(");").toString();
+                    byte[] bytesToSend = command.getBytes();
+                    mainActivity.myThreadConnected.write(bytesToSend);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            txt_debug.setText("Exception occurred sending command: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
