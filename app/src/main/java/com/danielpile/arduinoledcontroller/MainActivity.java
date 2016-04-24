@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
 
     BluetoothAdapter bluetoothAdapter;
+    BluetoothDevice device;
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
 
     long starttime = 0L;
     long elapsedtime = 0L;
+    boolean runner;
     TextView textInfo, textStatus;
     ListView listViewPairedDevice;
     //LinearLayout inputPane;
@@ -59,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout colorPane;
     ColorSeekBar colorSeekBar;
     TextView textView;
-    TextView txt_red;
+    /*TextView txt_red;
     TextView txt_green;
-    TextView txt_blue;
+    TextView txt_blue;*/
     Button btn_color_white;
     Button btn_color_red;
     Button btn_color_green;
@@ -133,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
         //colorSeekBar = (ColorSeekBar) findViewById(R.id.colorSlider);
         textView = (TextView)findViewById(R.id.colorText);
-        txt_red = (TextView)findViewById(R.id.txt_red);
+        /*txt_red = (TextView)findViewById(R.id.txt_red);
         txt_green = (TextView)findViewById(R.id.txt_green);
-        txt_blue = (TextView)findViewById(R.id.txt_blue);
+        txt_blue = (TextView)findViewById(R.id.txt_blue);*/
         btn_color_white = (Button)findViewById(R.id.btn_color_white);
         btn_color_red = (Button)findViewById(R.id.btn_color_red);
         btn_color_green = (Button)findViewById(R.id.btn_color_green);
@@ -307,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    BluetoothDevice device =
+                    device =
                             (BluetoothDevice) parent.getItemAtPosition(position);
                     Toast.makeText(MainActivity.this,
                             "Name: " + device.getName() + "\n"
@@ -326,8 +328,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        try {
+            myThreadConnected.cancel();
+        } catch (NullPointerException e) {
+            //methreadconnected null
+        }
+        if(myThreadConnectBTdevice!=null){
+            myThreadConnectBTdevice.cancel();
+        }
+    }
+    private void reconnect() {
+        myThreadConnectBTdevice = new ThreadConnectBTdevice(device);
+        myThreadConnectBTdevice.start();
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(myThreadConnectBTdevice!=null){
+            reconnect();
+        }
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        try {
+            myThreadConnected.cancel();
+        } catch (NullPointerException e) {
+            //methreadconnected null
+        }
 
         if(myThreadConnectBTdevice!=null){
             myThreadConnectBTdevice.cancel();
@@ -475,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
 
-            while (true) {
+            while (runner) {
                 try {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
@@ -517,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void cancel() {
             try {
+                runner = false;
                 connectedBluetoothSocket.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
