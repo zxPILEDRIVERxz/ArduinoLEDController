@@ -1,6 +1,8 @@
 package com.danielpile.arduinoledcontroller;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +21,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
+
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,12 +47,26 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
 
+    long starttime = 0L;
+    long elapsedtime = 0L;
     TextView textInfo, textStatus;
     ListView listViewPairedDevice;
-    LinearLayout inputPane;
-    EditText inputField;
-    Button btnSend;
-    Button btn_changecolor;
+    //LinearLayout inputPane;
+    //EditText inputField;
+    //Button btnSend;
+    //Button btn_changecolor;
+
+    LinearLayout colorPane;
+    ColorSeekBar colorSeekBar;
+    TextView textView;
+    TextView txt_red;
+    TextView txt_green;
+    TextView txt_blue;
+    Button btn_color_white;
+    Button btn_color_red;
+    Button btn_color_green;
+    Button btn_color_blue;
+    TextView txt_debug;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
@@ -67,10 +88,12 @@ public class MainActivity extends AppCompatActivity {
         textStatus = (TextView)findViewById(R.id.status);
         listViewPairedDevice = (ListView)findViewById(R.id.pairedlist);
 
-        inputPane = (LinearLayout)findViewById(R.id.inputpane);
+        starttime = SystemClock.uptimeMillis();
+
+        /*inputPane = (LinearLayout)findViewById(R.id.inputpane);
         inputField = (EditText)findViewById(R.id.input);
         btnSend = (Button)findViewById(R.id.send);
-        btn_changecolor = (Button) findViewById(R.id.btn_changecolor);
+        //btn_changecolor = (Button) findViewById(R.id.btn_changecolor);
         btnSend.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -79,9 +102,124 @@ public class MainActivity extends AppCompatActivity {
                     byte[] bytesToSend = inputField.getText().toString().getBytes();
                     myThreadConnected.write(bytesToSend);
                 }
+            }});*/
+
+        colorPane = (LinearLayout)findViewById(R.id.colorPane);
+
+        ColorPicker picker = (ColorPicker) findViewById(R.id.picker);
+
+        picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener()
+        {
+            @Override
+            public void onColorChanged(int color) {
+                elapsedtime = SystemClock.uptimeMillis() - starttime;
+                Log.i("ColorSeekBar","color:" + color);
+                Log.i("ColorSeekBar","ElapsedTime:" + elapsedtime);
+                if (elapsedtime < 95)
+                {
+                    Log.i("ColorSeekBar","RateLimiting:" + elapsedtime);
+                    return;
+                }
+                starttime = SystemClock.uptimeMillis();
+                String command = "";
+                textView.setTextColor(color);
+                String r = String.valueOf(Color.red(color));
+                String g = String.valueOf(Color.green(color));
+                String b = String.valueOf(Color.blue(color));
+                command = new StringBuilder("kSetLEDs,s,").append(r).append(",").append(g).append(",").append(b).append(",0").toString();
+                sendCommmand(command);
+            }
+        });
+
+        //colorSeekBar = (ColorSeekBar) findViewById(R.id.colorSlider);
+        textView = (TextView)findViewById(R.id.colorText);
+        txt_red = (TextView)findViewById(R.id.txt_red);
+        txt_green = (TextView)findViewById(R.id.txt_green);
+        txt_blue = (TextView)findViewById(R.id.txt_blue);
+        btn_color_white = (Button)findViewById(R.id.btn_color_white);
+        btn_color_red = (Button)findViewById(R.id.btn_color_red);
+        btn_color_green = (Button)findViewById(R.id.btn_color_green);
+        btn_color_blue = (Button)findViewById(R.id.btn_color_blue);
+        txt_debug = (TextView)findViewById(R.id.txt_debug);
+
+        /*colorSeekBar.setMaxValue(1000);
+        colorSeekBar.setColors(R.array.material_colors); // material_colors is defalut included in res/color,just use it.
+        colorSeekBar.setColorBarValue(0); //0 - maxValue
+        colorSeekBar.setAlphaBarValue(0); //0-255
+        colorSeekBar.setShowAlphaBar(false);
+        colorSeekBar.setBarHeight(5); //5dpi
+        colorSeekBar.setThumbHeight(30); //30dpi
+        colorSeekBar.setBarMargin(10); //set the margin between colorBar and alphaBar 10dpi*/
+        //textView.setTextColor(colorSeekBar.getColor());
+        textView.setTextColor(picker.getColor());
+        /*colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+            @Override
+            public void onColorChangeListener(int colorBarValue, int alphaBarValue, int color) {
+                Log.i("ColorSeekBar","colorPosition:"+ colorBarValue +"-alphaPosition:"+ alphaBarValue);
+                Log.i("ColorSeekBar","color:" + color);
+                String command = "";
+                textView.setTextColor(color);
+                String r = String.valueOf(Color.red(color));
+                String g = String.valueOf(Color.green(color));
+                String b = String.valueOf(Color.blue(color));
+                txt_red.setText(r);
+                txt_green.setText(g);
+                txt_blue.setText(b);
+                try
+                {
+                    command = new StringBuilder("kSetLEDs,s,").append(r).append(",").append(g).append(",").append(b).toString();
+                }
+                catch (Exception e)
+                {
+                    txt_debug.setText("Exception Occurred building string: " + e.getMessage());
+                    e.printStackTrace();
+                }
+
+                try
+                {
+                    sendCommmand(command);
+                }
+                catch (Exception e)
+                {
+                    txt_debug.setText("Exception Occurred sending command: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });*/
+
+        btn_color_white.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,s,255,255,255,25";
+                sendCommmand(command);
             }});
 
-        btn_changecolor.setOnClickListener(new View.OnClickListener(){
+        btn_color_red.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,s,255,0,0,25";
+                sendCommmand(command);
+            }});
+
+        btn_color_green.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,s,0,255,0,25";
+                sendCommmand(command);
+            }});
+
+        btn_color_blue.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,s,0,0,255,25";
+                sendCommmand(command);
+            }});
+
+        /*btn_changecolor.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -89,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, Main2Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }});
+            }});*/
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)){
             Toast.makeText(this,
@@ -114,6 +252,28 @@ public class MainActivity extends AppCompatActivity {
         String stInfo = bluetoothAdapter.getName() + "\n" +
                 bluetoothAdapter.getAddress();
         textInfo.setText(stInfo);
+    }
+
+    private void sendCommmand(String command) {
+        try {
+            if (myThreadConnectBTdevice == null) {
+                txt_debug.setText("No device connected!");
+            }
+            else
+            {
+                try {
+                    command = new StringBuilder("cmdMessenger.sendCmd(").append(command).append(");").toString();
+                    byte[] bytesToSend = command.getBytes();
+                    myThreadConnected.write(bytesToSend);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            txt_debug.setText("Exception occurred sending command: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -257,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
                         textStatus.setText(msgconnected);
 
                         listViewPairedDevice.setVisibility(View.GONE);
-                        inputPane.setVisibility(View.VISIBLE);
+                        colorPane.setVisibility(View.VISIBLE);
                     }});
 
                 startThreadConnected(bluetoothSocket);
