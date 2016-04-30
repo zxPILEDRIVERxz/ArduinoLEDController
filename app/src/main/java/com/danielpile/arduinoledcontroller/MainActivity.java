@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn_color_red;
     Button btn_color_green;
     Button btn_color_blue;
+    Button btn_color_demo;
+    Button btn_color_rainbow;
     TextView txt_debug;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         btn_color_red = (Button)findViewById(R.id.btn_color_red);
         btn_color_green = (Button)findViewById(R.id.btn_color_green);
         btn_color_blue = (Button)findViewById(R.id.btn_color_blue);
+        btn_color_demo = (Button)findViewById(R.id.btn_color_demo);
+        btn_color_rainbow = (Button)findViewById(R.id.btn_color_rainbow);
         txt_debug = (TextView)findViewById(R.id.txt_debug);
 
         /*colorSeekBar.setMaxValue(1000);
@@ -218,6 +222,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String command = "kSetLEDs,s,0,0,255,25";
+                sendCommmand(command);
+            }});
+
+        btn_color_demo.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,d";
+                sendCommmand(command);
+            }});
+        btn_color_rainbow.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String command = "kSetLEDs,r";
                 sendCommmand(command);
             }});
 

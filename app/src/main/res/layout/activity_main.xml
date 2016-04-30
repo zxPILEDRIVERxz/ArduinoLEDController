@@ -167,6 +167,26 @@
                     android:id="@+id/btn_color_red"
                     android:layout_weight="25" />
             </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Demo"
+                    android:id="@+id/btn_color_demo"
+                    android:layout_weight="50" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rainbow"
+                    android:id="@+id/btn_color_rainbow"
+                    android:layout_weight="50" />
+            </LinearLayout>
 
             <!--<LinearLayout
                 android:orientation="horizontal"
