@@ -93,22 +93,18 @@
                 android:layout_height="50px"
                 android:text="This is the color." />
 
-            <!--<com.rtugeek.android.colorseekbar.ColorSeekBar
+            <com.rtugeek.android.colorseekbar.ColorSeekBar
                 android:id="@+id/colorSlider"
                 android:layout_width="match_parent"
                 app:colors="@array/material_colors"
-                android:layout_height="wrap_content" />-->
-            <com.larswerkman.holocolorpicker.ColorPicker
-                android:id="@+id/picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!--<TextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="txt_red"
@@ -130,7 +126,7 @@
                     android:text="txt_blue"
                     android:id="@+id/txt_blue"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />-->
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 

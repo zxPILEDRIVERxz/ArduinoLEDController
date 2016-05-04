@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
-import com.larswerkman.holocolorpicker.ColorPicker;
 import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import java.io.IOException;
@@ -61,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout colorPane;
     ColorSeekBar colorSeekBar;
     TextView textView;
-    /*TextView txt_red;
+    TextView txt_red;
     TextView txt_green;
-    TextView txt_blue;*/
+    TextView txt_blue;
     Button btn_color_white;
     Button btn_color_red;
     Button btn_color_green;
@@ -94,52 +93,14 @@ public class MainActivity extends AppCompatActivity {
 
         starttime = SystemClock.uptimeMillis();
 
-        /*inputPane = (LinearLayout)findViewById(R.id.inputpane);
-        inputField = (EditText)findViewById(R.id.input);
-        btnSend = (Button)findViewById(R.id.send);
-        //btn_changecolor = (Button) findViewById(R.id.btn_changecolor);
-        btnSend.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(myThreadConnected!=null){
-                    byte[] bytesToSend = inputField.getText().toString().getBytes();
-                    myThreadConnected.write(bytesToSend);
-                }
-            }});*/
-
         colorPane = (LinearLayout)findViewById(R.id.colorPane);
 
-        ColorPicker picker = (ColorPicker) findViewById(R.id.picker);
 
-        picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener()
-        {
-            @Override
-            public void onColorChanged(int color) {
-                elapsedtime = SystemClock.uptimeMillis() - starttime;
-                Log.i("ColorSeekBar","color:" + color);
-                Log.i("ColorSeekBar","ElapsedTime:" + elapsedtime);
-                if (elapsedtime < 95)
-                {
-                    Log.i("ColorSeekBar","RateLimiting:" + elapsedtime);
-                    return;
-                }
-                starttime = SystemClock.uptimeMillis();
-                String command = "";
-                textView.setTextColor(color);
-                String r = String.valueOf(Color.red(color));
-                String g = String.valueOf(Color.green(color));
-                String b = String.valueOf(Color.blue(color));
-                command = new StringBuilder("kSetLEDs,s,").append(r).append(",").append(g).append(",").append(b).append(",0").toString();
-                sendCommmand(command);
-            }
-        });
-
-        //colorSeekBar = (ColorSeekBar) findViewById(R.id.colorSlider);
+        colorSeekBar = (ColorSeekBar) findViewById(R.id.colorSlider);
         textView = (TextView)findViewById(R.id.colorText);
-        /*txt_red = (TextView)findViewById(R.id.txt_red);
+        txt_red = (TextView)findViewById(R.id.txt_red);
         txt_green = (TextView)findViewById(R.id.txt_green);
-        txt_blue = (TextView)findViewById(R.id.txt_blue);*/
+        txt_blue = (TextView)findViewById(R.id.txt_blue);
         btn_color_white = (Button)findViewById(R.id.btn_color_white);
         btn_color_red = (Button)findViewById(R.id.btn_color_red);
         btn_color_green = (Button)findViewById(R.id.btn_color_green);
@@ -148,17 +109,16 @@ public class MainActivity extends AppCompatActivity {
         btn_color_rainbow = (Button)findViewById(R.id.btn_color_rainbow);
         txt_debug = (TextView)findViewById(R.id.txt_debug);
 
-        /*colorSeekBar.setMaxValue(1000);
-        colorSeekBar.setColors(R.array.material_colors); // material_colors is defalut included in res/color,just use it.
+        colorSeekBar.setMaxValue(1000);
+        colorSeekBar.setColors(R.array.my_colors); // material_colors is defalut included in res/color,just use it
         colorSeekBar.setColorBarValue(0); //0 - maxValue
         colorSeekBar.setAlphaBarValue(0); //0-255
         colorSeekBar.setShowAlphaBar(false);
         colorSeekBar.setBarHeight(5); //5dpi
         colorSeekBar.setThumbHeight(30); //30dpi
-        colorSeekBar.setBarMargin(10); //set the margin between colorBar and alphaBar 10dpi*/
-        //textView.setTextColor(colorSeekBar.getColor());
-        textView.setTextColor(picker.getColor());
-        /*colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
+        colorSeekBar.setBarMargin(10); //set the margin between colorBar and alphaBar 10dpi
+        textView.setTextColor(colorSeekBar.getColor());
+        colorSeekBar.setOnColorChangeListener(new ColorSeekBar.OnColorChangeListener() {
             @Override
             public void onColorChangeListener(int colorBarValue, int alphaBarValue, int color) {
                 Log.i("ColorSeekBar","colorPosition:"+ colorBarValue +"-alphaPosition:"+ alphaBarValue);
@@ -191,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });*/
+        });
 
         btn_color_white.setOnClickListener(new View.OnClickListener(){
 
@@ -239,16 +199,6 @@ public class MainActivity extends AppCompatActivity {
                 String command = "kSetLEDs,r";
                 sendCommmand(command);
             }});
-
-        /*btn_changecolor.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(MainActivity.this, Main2Activity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }});*/
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)){
             Toast.makeText(this,
