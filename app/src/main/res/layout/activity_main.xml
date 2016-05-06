@@ -23,6 +23,40 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/splashPane"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="#000000"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:id="@+id/txt_splash"
+                android:textStyle="bold|italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="connecting.."
+                android:textColor="#fff"
+                android:gravity="center_vertical|center|center_horizontal"
+                android:textSize="48sp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/connectionPane"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -30,6 +64,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical"
+        android:visibility="gone"
         tools:context=".MainActivity">
 
         <TextView
@@ -44,169 +79,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!--<Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Color"
-            android:id="@+id/btn_changecolor"
-            android:nestedScrollingEnabled="true" />-->
 
         <ListView
             android:id="@+id/pairedlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-       <!-- <LinearLayout
-            android:id="@+id/inputpane"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:text="Save Device?"
+            android:id="@+id/chk_save"
+            android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/send"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sent"/>
 
-        </LinearLayout>-->
+    </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/colorPane"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:paddingBottom="@dimen/activity_vertical_margin"
             tools:context=".MainActivity"
             android:orientation="vertical"
             android:visibility="gone">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/colorText"
-                android:layout_width="291dp"
-                android:layout_height="50px"
-                android:text="This is the color." />
-
-            <!--<com.rtugeek.android.colorseekbar.ColorSeekBar
-                android:id="@+id/colorSlider"
+            <LinearLayout
                 android:layout_width="match_parent"
-                app:colors="@array/material_colors"
-                android:layout_height="wrap_content" />-->
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/abc_action_bar_progress_bar_size"
+                android:background="#fff">
+                <Spinner
+                    android:layout_weight=".5"
+                    android:layout_width="0dip"
+                    android:layout_height="50dp"
+                    android:id="@+id/cmb_mode"
+                    style="@android:style/Widget.Material.Spinner.Underlined"
+                    android:gravity="center" />
+            </LinearLayout>
+
             <com.larswerkman.holocolorpicker.ColorPicker
                 android:id="@+id/picker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txt_red"
-                    android:id="@+id/txt_red"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txt_green"
-                    android:id="@+id/txt_green"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="txt_blue"
-                    android:id="@+id/txt_blue"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />-->
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/white"
-                    android:id="@+id/btn_color_white"
-                    android:layout_weight="25" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/green"
-                    android:id="@+id/btn_color_green"
-                    android:layout_weight="25" />
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/blue"
-                    android:id="@+id/btn_color_blue"
-                    android:layout_weight="25" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/red"
-                    android:id="@+id/btn_color_red"
-                    android:layout_weight="25" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Demo"
-                    android:id="@+id/btn_color_demo"
-                    android:layout_weight="50" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Rainbow"
-                    android:id="@+id/btn_color_rainbow"
-                    android:layout_weight="50" />
-            </LinearLayout>
-
-            <!--<LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/blue"
-                    android:id="@+id/btn_color_blue"
-                    android:layout_weight="25" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/red"
-                    android:id="@+id/btn_color_red"
-                    android:layout_weight="25" />
-            </LinearLayout>-->
 
             <LinearLayout
                 android:orientation="vertical"
@@ -218,13 +144,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/txt_debug" />
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
